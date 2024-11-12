@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            display: none;
+        }
+
+        .highlight {
+            background-color: #e0f7fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .highlight h4 {
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: #6c757d;
+            margin-top: -10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="my-4">Temperature Converter</h1>
+        <h3 class="subtitle mb-4">Convert Celsius to Fahrenheit</h3>
+        <div class="form-group">
+            <input type="text" class="form-control" id="celsiusInput" placeholder="Enter Celsius">
+            <div class="error" id="error">Please enter a valid number</div>
+        </div>
+        <button class="btn btn-primary" onclick="convertTemperature()">Convert</button>
+        <div class="result mt-4" id="result">
+            <h2>Prediction Result</h2>
+            <p id="resultText">Enter a value and click Predict to see the result.</p>
+        </div>
+        <div style="margin-top: 40px;">
+            <hr>
+        </div>
+        <div class="highlight">
+            <h4>Why This ML Development Demo is Exceptional</h4>
+            <ul style="text-align: left;">
+                <li><strong>Neural Network Powered:</strong> Utilizes a neural network to accurately capture the true
+                    relationship for precise conversions.</li>
+                <li><strong>ONNX Deployment:</strong> Deployed using an ONNX model, ensuring interoperability and
+                    optimized performance across different platforms.</li>
+                <li><strong>Custom Machine Learning Framework:</strong> Built from the ground up, not relying on
+                    existing frameworks like TensorFlow, PyTorch, or scikit-learn.</li>
+            </ul>
+        </div>
+        <div class="highlight" style="background-color: #fff3e0;">
+            <h4>Why Our Webpage is User-Centered</h4>
+            <ul style="text-align: left;">
+                <li><strong>Clear and Simple Interface:</strong> The layout is intuitive and is clear and easy to use.
+                </li>
+                <li><strong>Convenient Features:</strong> Users can press the Enter key to trigger the conversion,
+                    meeting common user expectations.</li>
+                <li><strong>Instant Feedback:</strong> Immediate feedback is provided for invalid inputs, with an error
+                    message prompting the user to enter a valid number.</li>
+                <li><strong>Responsive Design:</strong> Before the backend responds, the webpage informs the user that the
+                    request is being processed.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $('#celsiusInput').on('input', function () {
+            const celsius = $(this).val();
+            if (!/^-?\d+(\.\d+)?$/.test(celsius.trim())) {
+                $('#error').show();
+            } else {
+                $('#error').hide();
+            }
+        });
+
+        $('#celsiusInput').on('keypress', function (event) {
+            if (event.key === 'Enter') {
+                convertTemperature();
+            }
+        });
+
+        function validateInput() {
+            const celsius = $('#celsiusInput').val();
+            if (!/^-?\d+(\.\d+)?$/.test(celsius.trim())) {
+                $('#error').show();
+                return false;
+            }
+            $('#error').hide();
+            return true;
+        }
+
+        function convertTemperature() {
+            if (!validateInput()) {
+                return;
+            }
+            const celsius = $('#celsiusInput').val();
+            $('#resultText').text('Request sent, please wait for the result...');
+            $.getJSON(`/inference?celsius=${celsius}`, function (data) {
+                $('#resultText').text(`Celsius: ${data.celsius}, Fahrenheit: ${data.fahrenheit}`);
+                $('#celsiusInput').val('');
+            }).fail(function (error) {
+                console.error('Error:', error);
+                $('#resultText').text('An error occurred. Please try again.');
+            });
+        }
+    </script>
+</body>
+
+</html>

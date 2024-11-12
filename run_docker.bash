@@ -1,0 +1,1 @@
+docker run -it --rm -p 5108:80 aipi_510_ta9:latest
