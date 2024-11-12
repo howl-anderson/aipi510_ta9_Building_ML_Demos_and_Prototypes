@@ -1,2 +1,3 @@
 numpy~=2.1.0
 onnxruntime
+# we don't need to install flask, it's already included in the base image of dockerfile

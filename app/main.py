@@ -1,6 +1,8 @@
+# import the necessary libraries for web app
 from flask import Flask, jsonify, request
 
 
+# import machine learning libraries
 import numpy as np
 import onnxruntime as rt
 
@@ -24,6 +26,7 @@ input_name = input_tensor.name
 
 @app.route("/")
 def index():
+    # return the index.html, the frontend page
     return app.send_static_file("index.html")
 
 

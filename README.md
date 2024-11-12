@@ -4,6 +4,10 @@ TEAM: XKJX
 
 MEMBERS: Xiaoquan Kong & Jinglong Xiong
 
+## Prerequisites
+
+- Docker
+
 ## Build docker image
 
 ```bash
